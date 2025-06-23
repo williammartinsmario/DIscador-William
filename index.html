@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discador William</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Discador Semi-Automático William</h2>
+  <input type="file" id="fileInput" accept=".csv" />
+  <div id="filtros">
+    <input type="text" id="filtroNome" placeholder="Filtrar por nome">
+    <select id="filtroLead">
+      <option value="">Todos os leads</option>
+      <option value="Quente">🔥 Quente</option>
+      <option value="Frio">❄️ Frio</option>
+      <option value="Aguardando">⏳ Aguardando</option>
+    </select>
+    <button onclick="limparFiltros()">Limpar Filtros</button>
+  </div>
+  <div id="contador"></div>
+  <div id="lista-contatos"></div>
+  <h3>Contatos Feitos</h3>
+  <button onclick="exportarCSV()">📥 Backup</button>
+  <table id="contatos-feitos">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Número</th>
+        <th>Status</th>
+        <th>Informações</th>
+        <th>Lead</th>
+        <th>Data/Hora</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="app.js"></script>
+</body>
+</html>
