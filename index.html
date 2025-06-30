@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discador Wm Assessoria</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { color: #bfa046; }
+    button { margin: 5px; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
+    #acoesRapidas { position: sticky; top: 10px; background: #fff; padding: 10px; z-index: 100; border-bottom: 1px solid #ccc; }
+    #btnLimparLista { background-color: orange; color: white; }
+    #btnResetGeral { background-color: #444; color: white; }
+    #btnSalvarHistorico { background-color: #007bff; color: white; }
+    #filtroNome { padding: 8px; width: 200px; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    .feito { background-color: #e0ffe0; }
+  </style>
+</head>
+<body>
+  <h2>Discador Wm Assessoria</h2>
+
+  <div id="acoesRapidas">
+    <input type="text" id="filtroNome" placeholder="🔍 Buscar nome..." />
+    <button id="btnLimparLista">🧹 Limpar Lista</button>
+    <button id="btnResetGeral">🗑️ Reset Geral</button>
+    <button id="btnSalvarHistorico">💾 Salvar Histórico</button>
+  </div>
+
+  <div id="estatisticas">
+    <p>Total: <span id="totalContatos">0</span></p>
+    <p>Feitos: <span id="contatosFeitos">0</span></p>
+    <p>Pendentes: <span id="contatosPendentes">0</span></p>
+  </div>
+
+  <table id="tabelaContatos">
+    <thead><tr><th>Nome</th><th>Número</th><th>Ação</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    let contatos = [];
+    let contatosFeitos = JSON.parse(localStorage.getItem('contatosFeitos') || '[]');
+
+    function renderizarLista(lista = contatos) {
+      const tbody = document.querySelector("#tabelaContatos tbody");
+      tbody.innerHTML = "";
+      lista.forEach((c, i) => {
+        const linha = document.createElement("tr");
+        if (c.foiFeito) linha.classList.add("feito");
+        linha.innerHTML = `
+          <td>${c.nome}</td>
+          <td>${c.numero}</td>
+          <td><button onclick="marcarComoFeito(contatos[${i}])">Ligar</button></td>`;
+        tbody.appendChild(linha);
+      });
+      atualizarEstatisticas();
+    }
+
+    function renderizarHistorico() {
+      localStorage.setItem('contatosFeitos', JSON.stringify(contatosFeitos));
+    }
+
+    function marcarComoFeito(contato) {
+      contato.foiFeito = true;
+      contatosFeitos.push(contato);
+      localStorage.setItem('contatosFeitos', JSON.stringify(contatosFeitos));
+      renderizarLista();
+      renderizarHistorico();
+    }
+
+    document.getElementById("btnLimparLista").addEventListener("click", () => {
+      contatos = [];
+      renderizarLista();
+    });
+
+    document.getElementById("btnResetGeral").addEventListener("click", () => {
+      contatos = [];
+      contatosFeitos = [];
+      localStorage.removeItem("contatosFeitos");
+      renderizarLista();
+      renderizarHistorico();
+    });
+
+    document.getElementById("btnSalvarHistorico").addEventListener("click", () => {
+      if (!contatosFeitos.length) {
+        alert("Não há contatos no histórico para salvar.");
+        return;
+      }
+      const csv = 'nome,numero,status\n' +
+        contatosFeitos.map(c =>
+          `${c.nome},${c.numero},${c.status || ''}`).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `historico_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("filtroNome").addEventListener("input", e => {
+      const filtro = e.target.value.toLowerCase();
+      const filtrados = contatos.filter(c => c.nome.toLowerCase().includes(filtro));
+      renderizarLista(filtrados);
+    });
+
+    function atualizarEstatisticas() {
+      document.getElementById("totalContatos").textContent = contatos.length + contatosFeitos.length;
+      document.getElementById("contatosFeitos").textContent = contatosFeitos.length;
+      document.getElementById("contatosPendentes").textContent = contatos.length;
+    }
+
+    renderizarLista();
+  </script>
+</body>
+</html>
