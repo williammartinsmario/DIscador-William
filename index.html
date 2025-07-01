@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Discador William</title>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<h2>Discador Semi-Automático William</h2>
+<!-- Aceita CSV, XLSX e XLS -->
+<input accept=".csv,.xlsx,.xls" id="fileInput" type="file"/>
+<div id="filtros">
+<input id="filtroNome" placeholder="Filtrar por nome" type="text"/>
+<select id="filtroLead">
+<option value="">Todos os leads</option>
+<option value="Quente">🔥 Quente</option>
+<option value="Frio">❄️ Frio</option>
+<option value="Aguardando">⏳ Aguardando</option>
+</select>
+<button onclick="limparFiltros()">Limpar Filtros</button>
+</div>
+<div id="contador"></div>
+<div id="lista-contatos"></div>
+<h3>Contatos Feitos</h3>
+<button class="backup" onclick="exportarCSV()"><svg fill="white" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M320 320v128H192V320H128l128-128 128 128H320zM512 64v384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0h384c35.3 0 64 28.7 64 64z"></path></svg>📥 Backup</button>
+<table id="contatos-feitos">
+<thead>
+<tr>
+<th>Nome</th>
+<th>Número</th>
+<th>Status</th>
+<th>Informações</th>
+<th>Lead</th>
+<th>Data/Hora</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<script src="app.js"></script>
+<h2 style="margin-top: 40px; color: #003366;">📋 Histórico de Ligações</h2>
+<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+<thead style="background-color: #003366; color: white;">
+<tr>
+<th style="padding: 8px;">Nome</th>
+<th style="padding: 8px;">Número</th>
+<th style="padding: 8px;">Status</th>
+<th style="padding: 8px;">Informações</th>
+<th style="padding: 8px;">Lead</th>
+<th style="padding: 8px;">Data/Hora</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background-color: #f9f9f9;">
+<td style="padding: 8px;">ADRIANA BERNARDO DA SILVA GONCALVES</td>
+<td style="padding: 8px;">19988781481</td>
+<td style="padding: 8px;">Atendeu</td>
+<td style="padding: 8px;"></td>
+<td style="padding: 8px;">Quente</td>
+<td style="padding: 8px;">26/06/2025, 12:21:32</td>
+</tr>
+<tr>
+<td style="padding: 8px;">SANDRA HELENA ELIAS CREMONES</td>
+<td style="padding: 8px;">19988782886</td>
+<td style="padding: 8px;">Atendeu</td>
+<td style="padding: 8px;"></td>
+<td style="padding: 8px;">Quente</td>
+<td style="padding: 8px;">26/06/2025, 12:21:35</td>
+</tr>
+<tr style="background-color: #f9f9f9;">
+<td style="padding: 8px;">MARIA DE JESUS SANTOS BORGES</td>
+<td style="padding: 8px;">19988785348</td>
+<td style="padding: 8px;">Atendeu</td>
+<td style="padding: 8px;"></td>
+<td style="padding: 8px;">Quente</td>
+<td style="padding: 8px;">26/06/2025, 12:21:37</td>
+</tr>
+<tr>
+<td style="padding: 8px;">CASSIANE DELLA TORRE BRITO</td>
+<td style="padding: 8px;">19988789926</td>
+<td style="padding: 8px;">Atendeu</td>
+<td style="padding: 8px;"></td>
+<td style="padding: 8px;">Quente</td>
+<td style="padding: 8px;">26/06/2025, 12:21:39</td>
+</tr>
+<tr style="background-color: #f9f9f9;">
+<td style="padding: 8px;">MICHELE FRANCINE MOLINA GASPARRETTO SE</td>
+<td style="padding: 8px;">19988808527</td>
+<td style="padding: 8px;">Atendeu</td>
+<td style="padding: 8px;"></td>
+<td style="padding: 8px;">Quente</td>
+<td style="padding: 8px;">26/06/2025, 12:21:47</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
